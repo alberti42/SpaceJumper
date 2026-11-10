@@ -6,7 +6,7 @@
 [![build](https://img.shields.io/github/actions/workflow/status/alberti42/SpaceJumper/build.yml?branch=main&label=build)](https://github.com/alberti42/SpaceJumper/actions/workflows/build.yml)
 [![license](https://img.shields.io/github/license/alberti42/SpaceJumper)](LICENSE)
 
-**A menu-bar app for macOS that switches between Spaces without the slide animation, or with a slide as long as you choose.**
+**A menu-bar app for macOS that sets how long the animations take when you switch Spaces and when the hidden menu bar and Dock appear, down to no animation at all. It also launches apps with keyboard shortcuts.**
 
 Ever wished you could jump between your Mac's Spaces like a Star Wars starship
 making the jump to lightspeed? SpaceJumper switches Spaces instantly, without macOS's slide. And

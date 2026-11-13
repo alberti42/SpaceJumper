@@ -6,6 +6,33 @@
         <description>Updates of SpaceJumper. .github/workflows/publish-release.yml adds an item for each published release.</description>
         <language>en</language>
         <item>
+            <title>0.7.2</title>
+            <pubDate>Fri, 13 Nov 2026 16:32:35 +0000</pubDate>
+            <sparkle:version>13</sparkle:version>
+            <sparkle:shortVersionString>0.7.2</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>26.0</sparkle:minimumSystemVersion>
+            <link>https://github.com/alberti42/SpaceJumper/releases/tag/v0.7.2</link>
+            <sparkle:informationalUpdate>
+                <sparkle:belowVersion>4</sparkle:belowVersion>
+            </sparkle:informationalUpdate>
+            <enclosure url="https://github.com/alberti42/SpaceJumper/releases/download/v0.7.2/SpaceJumper.zip" length="4151316" type="application/octet-stream" sparkle:edSignature="HmpVZyUeUFANofTPDRu8fFpy2iKSollAW14svRhIcIUo5j0r9+nWVPeiDz6akq0/H+TsKSVn6uw8+N/NcJoPAA=="/>
+        
+            <description><![CDATA[
+<h3>Fixed</h3>
+<ul>
+<li>App shortcuts: an app with no open window (Ghostty) was activated but showed no window. SpaceJumper now opens the app through Launch Services, which sends it the same reopen event as a click on its Dock icon, so the app opens a window if it has none.</li>
+</ul>
+<h2>Changes since v0.7.1</h2>
+<ul>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/dd6e6df">dd6e6df</a> Version bump to v0.7.2 (build 13)</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/e1a6872">e1a6872</a> Open apps from app shortcuts as a Dock click does</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/a41b32c">a41b32c</a> Describe the menu bar, Dock and app shortcuts in the README's tagline</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/a556561">a556561</a> Release v0.7.1 (automatic appcast update)</li>
+</ul>
+<p><strong>Full diff:</strong> https://github.com/alberti42/SpaceJumper/compare/v0.7.1...v0.7.2</p>
+            ]]></description>
+        </item>
+        <item>
             <title>0.7.1</title>
             <pubDate>Sat, 31 Oct 2026 16:50:01 +0000</pubDate>
             <sparkle:version>12</sparkle:version>

@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.7.2] - 2026-11-13
+
 ### Fixed
 
 - App shortcuts: an app with no open window (Ghostty) was activated but showed no window. SpaceJumper now opens the app through Launch Services, which sends it the same reopen event as a click on its Dock icon, so the app opens a window if it has none.
@@ -134,7 +136,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Open at Login, through a login helper registered with macOS.
 - Software updates through [Sparkle](https://sparkle-project.org). SpaceJumper checks for a new version once a week; Check for Updates in the menu checks at once, and "Check for updates automatically" in Settings → General turns the weekly check on or off.
 
-[Unreleased]: https://github.com/alberti42/SpaceJumper/compare/v0.7.1...HEAD
+[Unreleased]: https://github.com/alberti42/SpaceJumper/compare/v0.7.2...HEAD
+[0.7.2]: https://github.com/alberti42/SpaceJumper/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/alberti42/SpaceJumper/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/alberti42/SpaceJumper/compare/v0.6.0...v0.7.0
 [0.6.0]: https://github.com/alberti42/SpaceJumper/compare/v0.5.0...v0.6.0

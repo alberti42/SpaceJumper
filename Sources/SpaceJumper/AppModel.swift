@@ -303,9 +303,11 @@ final class AppModel: ObservableObject {
     }
 
     /// An app shortcut: switches to the Space of the app's frontmost window,
-    /// then activates the app, whose window is then on the current Space, so
-    /// the Dock does not switch as well. An app that is not open is opened; a
-    /// hidden app is shown and left to the Dock, as with ⌘Tab.
+    /// then opens the app through Launch Services, whose window is then on the
+    /// current Space, so the Dock does not switch as well. Opening a running
+    /// app sends it the reopen event that a click on its Dock icon sends: the
+    /// app is activated and opens a window if it has none. An app that is not
+    /// open is launched; a hidden app is shown and left to the Dock, as with ⌘Tab.
     private func jump(toApp bundleIdentifier: String) {
         guard let app = NSRunningApplication.runningApplications(withBundleIdentifier: bundleIdentifier).first else {
             guard let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundleIdentifier) else {
@@ -319,12 +321,13 @@ final class AppModel: ObservableObject {
         }
         guard !app.isActive else { return }
         if !app.isHidden, let switcher { follow(app, switcher) }
-        if !app.activate(), let url = app.bundleURL {
-            // macOS can decline an activation from a background app; opening
-            // the running app through Launch Services activates it.
-            log.info("activate \(bundleIdentifier, privacy: .public) declined; opening it")
-            NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
+        guard let url = app.bundleURL else {
+            log.info("activate \(bundleIdentifier, privacy: .public): no bundle URL")
+            app.activate()
+            return
         }
+        log.info("reopen \(bundleIdentifier, privacy: .public)")
+        NSWorkspace.shared.openApplication(at: url, configuration: NSWorkspace.OpenConfiguration())
     }
 
     /// Asks for an app and adds a shortcut for it with a free letter.

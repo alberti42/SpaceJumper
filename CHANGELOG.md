@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Fixed
+
+- App shortcuts: an app with no open window (Ghostty) was activated but showed no window. SpaceJumper now opens the app through Launch Services, which sends it the same reopen event as a click on its Dock icon, so the app opens a window if it has none.
+
 ## [0.7.1] - 2026-10-31
 
 ### Fixed

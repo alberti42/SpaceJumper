@@ -115,7 +115,7 @@ BOOL SLBLoad(NSString **error)
     if (!sGetActiveSpace) [missing addObject:@"SLSGetActiveSpace"];
     if (!sIsSymbolicHotKeyEnabled) [missing addObject:@"SLSIsSymbolicHotKeyEnabled"];
     if (!sGetSymbolicHotKeyValue) [missing addObject:@"SLSGetSymbolicHotKeyValue"];
-    if (!sSymbolicHotKeyName) [missing addObject:@"SLSSymbolicHotKeyName"];
+    // Optional: older macOS versions lack this diagnostic name lookup.
     if (!sIsEventMatchingSymbolicHotKey) [missing addObject:@"SLSIsEventMatchingSymbolicHotKey"];
     if (!sCopySpacesForWindows) [missing addObject:@"SLSCopySpacesForWindows"];
     if (!sWindowQueryWindows) [missing addObject:@"SLSWindowQueryWindows"];
@@ -285,6 +285,7 @@ NSArray<NSDictionary<NSString *, NSNumber *> *> *SLBCopyEnabledSymbolicHotKeys(v
 
 NSString *SLBSymbolicHotKeyName(int hotKey)
 {
+    if (!sSymbolicHotKeyName) return nil;
     const char *name = sSymbolicHotKeyName(hotKey);
     return name && name[0] ? [NSString stringWithUTF8String:name] : nil;
 }

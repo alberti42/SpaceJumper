@@ -59,7 +59,19 @@ private let switchToDesktop1 = SystemShortcut(id: 118, keyCode: kVK_ANSI_1, flag
         #expect(SystemShortcut(id: 32, keyCode: kVK_UpArrow, flags: 0x840000, identifier: "WindowVousAll").reactsToPlainArrowKeys)
         #expect(!tileLeftHalf.reactsToPlainArrowKeys)
         #expect(!splitViewMakeLeft.reactsToPlainArrowKeys)
-        #expect(!SystemShortcut(id: 79, keyCode: kVK_LeftArrow, flags: 0x840000).reactsToPlainArrowKeys)
+        #expect(SystemShortcut(id: 79, keyCode: kVK_LeftArrow, flags: 0x840000).reactsToPlainArrowKeys)
+    }
+
+    @Test func missingNamesUseMissionControlIDsForArrowConflicts() {
+        let shortcuts = [32, 33, 34, 35, 79, 80, 81, 82, 199, 240, 300].map {
+            SystemShortcut(id: Int32($0), keyCode: kVK_LeftArrow, flags: 0x840000)
+        }
+        let clashes = ShortcutClash.find(HotKeyBinding.arrowKeys(.control), in: shortcuts) { _, _ in true }
+        #expect(clashes.map(\.shortcut.id) == [32, 33, 34, 35, 79, 80, 81, 82])
+        #expect(clashes.first?.shortcut.name == "macOS shortcut 32")
+        // A supplied name remains authoritative, even for a known numeric ID.
+        #expect(!SystemShortcut(id: 79, keyCode: kVK_LeftArrow, flags: 0,
+                               identifier: "SomethingElse").reactsToPlainArrowKeys)
     }
 
     /// Digits carry no fn flag, so the tiling exception does not apply.

@@ -17,34 +17,50 @@ ifeq ($(ARCHS),universal)
 ARCH_FLAGS := --arch arm64 --arch x86_64
 endif
 
+# Preserve the real linked SDK version with a macOS 15 deployment target.
+# SwiftPM's clang --sysroot can record 15.0 instead, losing the modern UI on 26+.
+SDK := $(shell xcrun --sdk macosx --show-sdk-path)
+SDK_FLAGS := -Xswiftc -Xclang-linker -Xswiftc -isysroot -Xswiftc -Xclang-linker -Xswiftc "$(SDK)"
+
 # A secure timestamp needs Apple's timestamp server; ad-hoc signatures cannot have one.
+# Ad-hoc Sparkle and the app have no Team ID: hardened runtime library validation
+# refuses to load the framework. Only Developer ID builds need the runtime.
 ifeq ($(SIGN_IDENTITY),-)
 TIMESTAMP := --timestamp=none
 else
 TIMESTAMP := --timestamp
+RUNTIME := --options runtime
 endif
 
 APP := build/SpaceJumper.app
 HELPER := $(APP)/Contents/Library/LoginItems/SpaceJumperLoginHelper.app
 SPARKLE := $(APP)/Contents/Frameworks/Sparkle.framework
-SIGN := codesign --force --options runtime $(TIMESTAMP) --sign "$(SIGN_IDENTITY)"
+SIGN := codesign --force $(RUNTIME) $(TIMESTAMP) --sign "$(SIGN_IDENTITY)"
 
 .PHONY: debug test app run clean
 
 debug:
-	swift build
+	swift build $(SDK_FLAGS)
 
 test:
-	swift test
+	swift test $(SDK_FLAGS)
 	python3 -m unittest discover -s Tests/Scripts -p '*_test.py'
 
 app:
-	swift build -c release $(ARCH_FLAGS) --product SpaceJumper
-	swift build -c release $(ARCH_FLAGS) --product LoginHelper
+	swift build -c release $(ARCH_FLAGS) $(SDK_FLAGS) --product SpaceJumper
+	swift build -c release $(ARCH_FLAGS) $(SDK_FLAGS) --product LoginHelper
+	# Stop if the binary would get the pre-26 look on modern macOS.
+	@BIN="$$(swift build -c release $(ARCH_FLAGS) $(SDK_FLAGS) --show-bin-path)"; \
+	for sdk in $$(vtool -show-build "$$BIN/SpaceJumper" | awk '$$1 == "sdk" { print $$2 }'); do \
+	    if [ "$${sdk%%.*}" -lt 26 ]; then \
+	        echo "error: $$BIN/SpaceJumper records SDK $$sdk; it must be 26 or later" >&2; \
+	        exit 1; \
+	    fi; \
+	done
 	rm -rf "$(APP)"
 	mkdir -p "$(APP)/Contents/MacOS" "$(APP)/Contents/Resources" "$(APP)/Contents/Frameworks" "$(HELPER)/Contents/MacOS"
 	# ditto keeps the symbolic links inside the framework.
-	BIN="$$(swift build -c release $(ARCH_FLAGS) --show-bin-path)"; \
+	BIN="$$(swift build -c release $(ARCH_FLAGS) $(SDK_FLAGS) --show-bin-path)"; \
 	cp "$$BIN/SpaceJumper" "$(APP)/Contents/MacOS/SpaceJumper"; \
 	cp "$$BIN/LoginHelper" "$(HELPER)/Contents/MacOS/SpaceJumperLoginHelper"; \
 	ditto "$$BIN/Sparkle.framework" "$(SPARKLE)"
@@ -54,7 +70,7 @@ app:
 	# names the icon in CFBundleIconName and CFBundleIconFile, so the partial plist
 	# that actool writes is not used.
 	xcrun actool Resources/AppIcon.icon --compile "$(APP)/Contents/Resources" \
-	    --platform macosx --minimum-deployment-target 26.0 --app-icon AppIcon \
+	    --platform macosx --minimum-deployment-target 15.0 --app-icon AppIcon \
 	    --output-partial-info-plist build/AppIcon-partial.plist >/dev/null
 	# Sign inside out: Sparkle's helpers, Sparkle, the login helper, then the app
 	# that contains them. The order and the flags follow Sparkle's documentation

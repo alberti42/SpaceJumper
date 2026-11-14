@@ -6,6 +6,15 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+### Changed
+
+- Lower the minimum macOS version to macOS 15 Sequoia, now reported working on a Sequoia Mac; macOS 26 and later retain their modern appearance.
+
+### Fixed
+
+- A missing optional SkyLight shortcut-name lookup on Sequoia no longer disables Space switching. Shortcut warnings fall back to numeric IDs, with known Mission Control IDs used to check arrow-key conflicts.
+- Local ad-hoc builds no longer enable the hardened runtime, whose library validation can prevent the app from loading its ad-hoc-signed Sparkle framework. Developer ID builds retain the hardened runtime for notarization.
+
 ## [0.7.2] - 2026-11-13
 
 ### Fixed

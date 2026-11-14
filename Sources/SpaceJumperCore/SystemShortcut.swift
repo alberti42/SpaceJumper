@@ -57,7 +57,13 @@ public struct SystemShortcut: Equatable, Sendable {
     /// (`WindowVous…`). Only that family counts; a shortcut the user rebinds
     /// to a plain arrow is missed.
     public var reactsToPlainArrowKeys: Bool {
-        guard let identifier else { return false }
+        guard let identifier else {
+            // Older macOS lacks SLSSymbolicHotKeyName. Use the established
+            // symbolic IDs for Mission Control / Application windows (and slow
+            // variants), and moving left/right a Space (and slow variants).
+            // Unknown IDs stay excluded to avoid fn-arrow tiling false alarms.
+            return (32...35).contains(id) || (79...82).contains(id)
+        }
         return identifier.hasPrefix("Workspaces") || identifier.hasPrefix("WindowVous")
     }
 

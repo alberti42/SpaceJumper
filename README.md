@@ -14,9 +14,12 @@ if you'd like to see the jump, you can set how long it takes.
 
 **[Download SpaceJumper.zip](https://github.com/alberti42/SpaceJumper/releases/latest/download/SpaceJumper.zip)** (latest release, signed and notarized). See [Installation](#installation).
 
-Free and open source (GPL-3.0). Requires macOS 26 or later; runs natively on
+Free and open source (GPL-3.0). Requires macOS 15 Sequoia or later; runs natively on
 Apple silicon and Intel Macs. Works with System Integrity Protection (SIP)
 enabled, as it is on every Mac by default: you do not need to turn it off.
+
+> [!NOTE]
+> **Using an older macOS?** [Open an issue](https://github.com/alberti42/SpaceJumper/issues/new) with your macOS version and Mac model. SpaceJumper may be able to support it. The private interfaces for switching Spaces can differ between macOS versions, so you would get a preview build for your macOS; all it takes is to try it and tell what you see in the issue.
 
 macOS has no setting to turn off the animation that plays when you switch
 Spaces. "Reduce motion" replaces the slide with a cross-fade, which is still an
@@ -126,12 +129,11 @@ you set it.
 SpaceJumper relies on private macOS interfaces (see
 [How it works](#how-it-works)), which Apple can change in any update.
 
-Tested on one Mac with macOS 27.0.1.
+Tested on macOS 27.0.1; also reported working on macOS 15 Sequoia.
 
 Not yet tested:
 
-- macOS 26. SpaceJumper declares macOS 26 as its minimum, but no one has run
-  it there yet. If you find a problem on macOS 26, please open an
+- macOS 26. If you find a problem, please open an
   [issue](https://github.com/alberti42/SpaceJumper/issues).
 - More than one display.
 

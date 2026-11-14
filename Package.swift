@@ -3,7 +3,7 @@ import PackageDescription
 
 let package = Package(
     name: "SpaceJumper",
-    platforms: [.macOS(.v26)],
+    platforms: [.macOS(.v15)],
     dependencies: [
         // Software updates. The Makefile embeds Sparkle.framework in the app.
         .package(url: "https://github.com/sparkle-project/Sparkle", exact: "2.10.0"),

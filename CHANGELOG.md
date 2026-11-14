@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ### Fixed
 
+- Settings section footers are explicitly left-aligned, including on macOS 15 Sequoia.
 - A missing optional SkyLight shortcut-name lookup on Sequoia no longer disables Space switching. Shortcut warnings fall back to numeric IDs, with known Mission Control IDs used to check arrow-key conflicts.
 - Local ad-hoc builds no longer enable the hardened runtime, whose library validation can prevent the app from loading its ad-hoc-signed Sparkle framework. Developer ID builds retain the hardened runtime for notarization.
 

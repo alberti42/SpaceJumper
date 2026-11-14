@@ -126,6 +126,7 @@ private struct SpacesPane: View {
             } footer: {
                 Text("Turn it off to keep macOS's swipe with its animation; SpaceJumper then needs no Accessibility access.")
                     .foregroundStyle(.secondary)
+                    .formFooter()
             }
 
             if !model.clashes.isEmpty {
@@ -210,6 +211,7 @@ private struct AppsPane: View {
             } footer: {
                 Text("\(prefix) and the letter switch to the Space with the app's frontmost window, full-screen or not, and bring the app forward. An app that is not open is opened.")
                     .foregroundStyle(.secondary)
+                    .formFooter()
             }
             if model.appModifierPrefix == .control && !model.appShortcuts.isEmpty {
                 Label("With ⌃ alone, these shortcuts take keys that text fields use, such as ⌃A and ⌃E (start and end of line). Choose other modifier keys above.",
@@ -385,6 +387,7 @@ private struct DockSection: View {
         } footer: {
             Text("The Dock restarts after a change to a slider, as it reads these settings only when it starts. System Settings does not show them; the README lists them.")
                 .foregroundStyle(.secondary)
+                .formFooter()
         }
     }
 
@@ -437,6 +440,14 @@ private struct MacOSPane: View {
     }
 }
 
+private extension View {
+    /// Grouped forms on macOS 15 otherwise right-align section footers.
+    func formFooter() -> some View {
+        multilineTextAlignment(.leading)
+            .frame(maxWidth: .infinity, alignment: .leading)
+    }
+}
+
 // MARK: General
 
 private struct GeneralPane: View {
@@ -462,6 +473,7 @@ private struct GeneralPane: View {
             } footer: {
                 Text("A frame tells the Space's number apart from other numbers in the menu bar. Filled cuts the number out of the shape; a capsule around one digit is a circle.")
                     .foregroundStyle(.secondary)
+                    .formFooter()
             }
             Section("Startup") {
                 Toggle("Open at login", isOn: Binding(
@@ -479,6 +491,7 @@ private struct GeneralPane: View {
                      ? "SpaceJumper checks once a week."
                      : "Updates are only available in SpaceJumper.app.")
                     .foregroundStyle(.secondary)
+                    .formFooter()
             }
             .disabled(!updater.isAvailable)
         }

@@ -6,6 +6,40 @@
         <description>Updates of SpaceJumper. .github/workflows/publish-release.yml adds an item for each published release.</description>
         <language>en</language>
         <item>
+            <title>0.8.0</title>
+            <pubDate>Sat, 14 Nov 2026 13:28:11 +0000</pubDate>
+            <sparkle:version>14</sparkle:version>
+            <sparkle:shortVersionString>0.8.0</sparkle:shortVersionString>
+            <sparkle:minimumSystemVersion>15.0</sparkle:minimumSystemVersion>
+            <link>https://github.com/alberti42/SpaceJumper/releases/tag/v0.8.0</link>
+            <sparkle:informationalUpdate>
+                <sparkle:belowVersion>4</sparkle:belowVersion>
+            </sparkle:informationalUpdate>
+            <enclosure url="https://github.com/alberti42/SpaceJumper/releases/download/v0.8.0/SpaceJumper.zip" length="4159273" type="application/octet-stream" sparkle:edSignature="JDGAZhAbGdiBe+Nr7wglJ9pPELM1YAW/+e7TOsFXHKsLsj7Io+e46ykHnLCVMgXgW0gcO7mt5yzKJEzPVxikAQ=="/>
+        
+            <description><![CDATA[
+<h3>Changed</h3>
+<ul>
+<li>Lower the minimum macOS version to macOS 15 Sequoia, now reported working on a Sequoia Mac; macOS 26 and later retain their modern appearance.</li>
+</ul>
+<h3>Fixed</h3>
+<ul>
+<li>Settings section footers are explicitly left-aligned, including on macOS 15 Sequoia.</li>
+<li>A missing optional SkyLight shortcut-name lookup on Sequoia no longer disables Space switching. Shortcut warnings use readable fallback labels for known Mission Control and Desktop 1–9 IDs, and numeric IDs for unknown shortcuts. Known Mission Control IDs are also used to check arrow-key conflicts.</li>
+<li>Local ad-hoc builds no longer enable the hardened runtime, whose library validation can prevent the app from loading its ad-hoc-signed Sparkle framework. Developer ID builds retain the hardened runtime for notarization.</li>
+</ul>
+<h2>Changes since v0.7.2</h2>
+<ul>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/0002a2a">0002a2a</a> Version bump to v0.8.0 (build 14)</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/6e910af">6e910af</a> Label known shortcut conflicts when SkyLight names are unavailable</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/140edcd">140edcd</a> Left-align Settings section footers on macOS 15</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/9973eda">9973eda</a> Support macOS 15 Sequoia</li>
+<li><a href="https://github.com/alberti42/SpaceJumper/commit/d847331">d847331</a> Release v0.7.2 (automatic appcast update)</li>
+</ul>
+<p><strong>Full diff:</strong> https://github.com/alberti42/SpaceJumper/compare/v0.7.2...v0.8.0</p>
+            ]]></description>
+        </item>
+        <item>
             <title>0.7.2</title>
             <pubDate>Fri, 13 Nov 2026 16:32:35 +0000</pubDate>
             <sparkle:version>13</sparkle:version>

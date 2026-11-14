@@ -6,6 +6,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 
 ## [Unreleased]
 
+## [0.8.0] - 2026-11-14
+
 ### Changed
 
 - Lower the minimum macOS version to macOS 15 Sequoia, now reported working on a Sequoia Mac; macOS 26 and later retain their modern appearance.
@@ -146,7 +148,8 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 - Open at Login, through a login helper registered with macOS.
 - Software updates through [Sparkle](https://sparkle-project.org). SpaceJumper checks for a new version once a week; Check for Updates in the menu checks at once, and "Check for updates automatically" in Settings → General turns the weekly check on or off.
 
-[Unreleased]: https://github.com/alberti42/SpaceJumper/compare/v0.7.2...HEAD
+[Unreleased]: https://github.com/alberti42/SpaceJumper/compare/v0.8.0...HEAD
+[0.8.0]: https://github.com/alberti42/SpaceJumper/compare/v0.7.2...v0.8.0
 [0.7.2]: https://github.com/alberti42/SpaceJumper/compare/v0.7.1...v0.7.2
 [0.7.1]: https://github.com/alberti42/SpaceJumper/compare/v0.7.0...v0.7.1
 [0.7.0]: https://github.com/alberti42/SpaceJumper/compare/v0.6.0...v0.7.0

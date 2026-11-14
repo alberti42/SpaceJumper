@@ -26,8 +26,10 @@ public struct SystemShortcut: Equatable, Sendable {
     /// The System Settings label for the internal names SpaceJumper knows.
     /// Each title is the English text of System Settings' table
     /// (`KeyboardSettings.appex/Contents/Resources/DefaultShortcutsTable.loctable`).
+    /// When the name lookup is unavailable (macOS 15), use established symbolic
+    /// IDs for common Mission Control shortcuts. A supplied name always wins.
     public var label: Label? {
-        guard let identifier else { return nil }
+        guard let identifier else { return fallbackLabel }
         switch identifier {
         case "WorkspacesLeft": return Label(title: "Move left a Space", section: "Mission Control")
         case "WorkspacesRight": return Label(title: "Move right a Space", section: "Mission Control")
@@ -45,6 +47,19 @@ public struct SystemShortcut: Equatable, Sendable {
             }
             return nil
         }
+    }
+
+    private var fallbackLabel: Label? {
+        let title: String
+        switch id {
+        case 32: title = "Mission Control"
+        case 34: title = "Application windows"
+        case 79: title = "Move left a Space"
+        case 81: title = "Move right a Space"
+        case 118...126: title = "Switch to Desktop \(id - 117)"
+        default: return nil
+        }
+        return Label(title: title, section: "Mission Control")
     }
 
     /// Whether the shortcut reacts to an arrow key without fn (Globe), as far
@@ -87,7 +102,7 @@ public struct ShortcutClash: Equatable, Sendable {
 
     /// The clashes among `bindings`. Shortcuts on other keys are skipped; on
     /// arrow keys only those that react to plain arrows count (see
-    /// `SystemShortcut.reactsToPlainArrowKeys`), which needs `identifier`. For
+    /// `SystemShortcut.reactsToPlainArrowKeys`, with numeric ID fallback). For
     /// the rest, `matches` decides, which in the app asks WindowServer with the
     /// key event the keyboard would send.
     public static func find(_ bindings: [HotKeyBinding], in shortcuts: [SystemShortcut],

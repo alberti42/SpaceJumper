@@ -24,6 +24,32 @@ private let switchToDesktop1 = SystemShortcut(id: 118, keyCode: kVK_ANSI_1, flag
         #expect(SystemShortcut(id: 134, keyCode: 0, flags: 0, identifier: "WorkspacesNumPad1").label == nil)
     }
 
+    @Test func missingNamesUseKnownMissionControlLabels() {
+        for (id, title) in [(32, "Mission Control"), (34, "Application windows"),
+                            (79, "Move left a Space"), (81, "Move right a Space")] {
+            let shortcut = SystemShortcut(id: Int32(id), keyCode: 0, flags: 0)
+            #expect(shortcut.label == .init(title: title, section: "Mission Control"))
+        }
+        for number in 1...9 {
+            let shortcut = SystemShortcut(id: Int32(117 + number), keyCode: 0, flags: 0)
+            #expect(shortcut.name == "“Switch to Desktop \(number)” (Mission Control)")
+        }
+        // Do not guess names for adjacent IDs or the slow/keypad variants.
+        for id in [33, 35, 80, 82, 117, 127, 134, 300] {
+            let shortcut = SystemShortcut(id: Int32(id), keyCode: 0, flags: 0)
+            #expect(shortcut.label == nil)
+            #expect(shortcut.name == "macOS shortcut \(id)")
+        }
+    }
+
+    @Test func suppliedNamesOverrideNumericLabelFallbacks() {
+        let known = SystemShortcut(id: 120, keyCode: 0, flags: 0, identifier: "WorkspacesLeft")
+        #expect(known.name == "“Move left a Space” (Mission Control)")
+        let unknown = SystemShortcut(id: 120, keyCode: 0, flags: 0, identifier: "SomethingElse")
+        #expect(unknown.label == nil)
+        #expect(unknown.name == "macOS shortcut 120 (SomethingElse)")
+    }
+
     @Test func clashDescription() {
         let clash = ShortcutClash(binding: HotKeyBinding.arrowKeys(.control)[0], shortcut: tileLeftHalf)
         #expect(clash.description == "⌃← also triggers “Tile Left Half” (Windows)")
@@ -68,7 +94,7 @@ private let switchToDesktop1 = SystemShortcut(id: 118, keyCode: kVK_ANSI_1, flag
         }
         let clashes = ShortcutClash.find(HotKeyBinding.arrowKeys(.control), in: shortcuts) { _, _ in true }
         #expect(clashes.map(\.shortcut.id) == [32, 33, 34, 35, 79, 80, 81, 82])
-        #expect(clashes.first?.shortcut.name == "macOS shortcut 32")
+        #expect(clashes.first?.shortcut.name == "“Mission Control” (Mission Control)")
         // A supplied name remains authoritative, even for a known numeric ID.
         #expect(!SystemShortcut(id: 79, keyCode: kVK_LeftArrow, flags: 0,
                                identifier: "SomethingElse").reactsToPlainArrowKeys)
